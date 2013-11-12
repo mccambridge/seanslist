@@ -71,22 +71,17 @@
         i,
         $rows = $('#toc_rows').find('.row');
 
-    if (data.category === 'search') {
-        alert('You are on a search page. So far, this only works in a category listing page (without search).');
-        return;
-    }
-
     // do something with lastHighest for now
     if (data.lastHighest) {
         //alert('The last highest listing you saw in this category was: ' + data.lastHighest);
     } else { // never been here before
-        alert('You have never viewed this category before.');
+        //alert('You have never viewed this category before.');
         data.new = 1;
     }
 
     // we want more padding for highlighting, so let's just switch margin for padding
     $rows.css({'margin': 0, 'padding': '0.5em 0'});
-
+/*
     // populate array of pids on page
     for (i = 0; i < 100; i++) {
         var pid = $rows.eq(i).data('pid');
@@ -108,7 +103,7 @@
         // save newest in this category for next time
         //localStorage['sjM' + data.category] = data.newest;
     }
-
+*/
     function hideForever(pid) {
         data.hiddenItems.push(pid.toString());
         localStorage['sjMHidden'] = data.hiddenItems;
