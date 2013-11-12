@@ -9,12 +9,18 @@
 
     // set defaults
     data.new = 0;
+    data.search = 0;
 
     // set initial page
     data.page = 0;
 
     // get current category
     data.category = window.location.pathname.split('/')[1];
+    if (data.category === 'search') {
+        data.search = 1;
+        data.category = window.location.pathname.split('/')[2];
+        console.log(data.category);
+    }
 
     // check to see what last highest pid was
     data.lastHighest = localStorage['sjM' + data.category] || 0;
@@ -27,7 +33,7 @@
     $('.content').attr('id', 'seanslist');
 
 
-    // repurpose paginator //
+    // repurpose paginator //                               <<<< need to have logic for search pages, which have different urls
     $('body').on('click', '.paginator a', function(e) {
         e.preventDefault();
         var $this = $(this);
@@ -36,8 +42,14 @@
         $('.pagenum').text('1 - ' + (data.page + 1) + '00');
 
         // ajax call
-        var href = '/' + data.category + '/index' + data.page + '00.html .content', // e.g. /fuo/index100.html
-            $content = $('<div id="page--' + data.page + '"></div>');
+        var $content = $('<div id="page--' + data.page + '"></div>'),
+            href;
+
+        if (data.search) {
+            href = '/search/' + data.category + window.location.search + '&s=' + data.page + '00 .content'; // e.g. /search/fuo?query=dining&zoomToPosting=&minAsk=&maxAsk=300
+        } else {
+            href = '/' + data.category + '/index' + data.page + '00.html .content'; // e.g. /fuo/index100.html
+        }
 
         $content.appendTo('body').load(href, function() {
             // have CL help us lazy load images
